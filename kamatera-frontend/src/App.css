@@ -1,13 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
 .App {
   text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+}
+
+.button-container {
+  margin: 20px 0;
+}
+
+.control-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.control-button:hover {
+  background-color: #0056b3;
+}
+
+.status-container {
+  margin-top: 20px;
+}
+
+.status-header {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.status-list {
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.status-item {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-item.active {
+  background-color: #d4edda;
+  border-left: 5px solid #28a745;
+}
+
+.status-item.inactive {
+  background-color: #f8d7da;
+  border-left: 5px solid #dc3545;
 }
 
 .status {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  display: inline-block;
-  margin-top: 20px;
+  margin-right: 10px;
 }
 
 .on {
@@ -16,10 +90,4 @@
 
 .off {
   background-color: red;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
 }
