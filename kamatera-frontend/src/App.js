@@ -12,14 +12,14 @@ function App() {
   }, []);
 
   const fetchCredentials = async () => {
-    const response = await fetch('http://localhost:3000/api/credentials');
+    const response = await fetch('https://kamatera.onrender.com/api/credentials');
     const credentials = await response.json();
     setClientId(credentials.clientId);
     setApiSecret(credentials.apiSecret);
   };
 
   const fetchServers = async () => {
-    const response = await fetch('http://localhost:3000/api/servers');
+    const response = await fetch('https://kamatera.onrender.com/api/servers');
     if (response.ok) {
       const servers = await response.json();
       setServerIds(servers.map(server => server.id));
@@ -31,7 +31,7 @@ function App() {
   const powerServers = async (powerState) => {
     for (const serverId of serverIds) {
       try {
-        const response = await fetch(`http://localhost:3000/api/server/${serverId}/power`, {
+        const response = await fetch(`https://kamatera.onrender.com/api/server/${serverId}/power`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
