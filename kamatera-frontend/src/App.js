@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [clientId, setClientId] = useState('');
   const [apiSecret, setApiSecret] = useState('');
-  const [servers, setServers] = useState([]);
+  const [serverIds, setServerIds] = useState([]);
   const [status, setStatus] = useState('off');
 
   useEffect(() => {
@@ -22,16 +22,16 @@ function App() {
     const response = await fetch('http://localhost:3000/api/servers');
     if (response.ok) {
       const servers = await response.json();
-      setServers(servers);
+      setServerIds(servers.map(server => server.id));
     } else {
       console.error('Failed to fetch servers');
     }
   };
 
   const powerServers = async (powerState) => {
-    for (const server of servers) {
+    for (const serverId of serverIds) {
       try {
-        const response = await fetch(`http://localhost:3000/api/server/${server.id}/power`, {
+        const response = await fetch(`http://localhost:3000/api/server/${serverId}/power`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -40,40 +40,27 @@ function App() {
         });
 
         if (response.ok) {
-          alert(`Server ${server.id} ${powerState} successfully!`);
+          alert(`Server ${serverId} ${powerState} successfully!`);
           setStatus(powerState);
         } else {
           const result = await response.json();
-          alert(`Failed to ${powerState} server ${server.id}: ${result.error}`);
+          alert(`Failed to ${powerState} server ${serverId}: ${result.error}`);
         }
       } catch (error) {
-        console.error(`Error ${powerState} server ${server.id}:`, error);
-        alert(`An error occurred while ${powerState} server ${server.id}.`);
+        console.error(`Error ${powerState} server ${serverId}:`, error);
+        alert(`An error occurred while ${powerState} server ${serverId}.`);
       }
     }
-
-    fetchServers(); // Refresh the server status after powering on/off
-  }
+  };
 
   return (
     <div className="App">
       <h1>Kamatera Server Control</h1>
-      <div className="button-container">
-        <button onClick={() => powerServers('on')} className="control-button">Start Servers</button>
-        <button onClick={() => powerServers('off')} className="control-button">Stop Servers</button>
-        <button onClick={() => powerServers('restart')} className="control-button">Restart Servers</button>
+      <div className="button-group">
+      <button className="control-button" onClick={() => powerServers('on')}>ON</button>
+      <button className="control-button" onClick={() => powerServers('off')}>OFF</button>
       </div>
-      <div id="serverStatus" className="status-container">
-        <div className="status-header">Server Status</div>
-        <div className="status-list">
-          {servers.map(server => (
-            <div key={server.id} className={`status-item ${server.status === 'active' ? 'active' : 'inactive'}`}>
-              <span>{server.name}</span>
-              <span className={`status ${server.status === 'active' ? 'on' : 'off'}`}></span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <div id="serverStatus" className={`status ${status}`}></div>
     </div>
   );
 }
